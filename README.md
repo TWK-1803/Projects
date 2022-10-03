@@ -6,6 +6,14 @@ Notes on how to run the programs:
 
 The Chaos Game will run with no additional requirements.
 
+Wireframe will run with no additional requirements.
+
+InPlaceManipulationOfWireFrame will run with no additional requirements.
+
+PolygonShadingWithZBuffer will run with no additional requirements.
+
+ShadingModels will run with no additional requirements.
+
 Connect4Window uses an instance of Connect4AIAgent and the pygame library to run, both are require to play a game against the Agent. Running 
 Connect4Window on the command line will start a game.
 
