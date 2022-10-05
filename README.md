@@ -1,18 +1,9 @@
 # Projects
-This is a collection of the various projects and similar such things
-I have made throughout school and on my own time.
+This is a collection of the various projects and similar such things I have made throughout school and on my own time.
+The wireframe and shading programs are individual iterations of a project to recreate 3d graphics from scratch using math.
+The Connect 4 programs were created because I wanted to play with minimaxxing and 
 
-Notes on how to run the programs:
-
-The Chaos Game will run with no additional requirements.
-
-Wireframe will run with no additional requirements.
-
-InPlaceManipulationOfWireFrame will run with no additional requirements.
-
-PolygonShadingWithZBuffer will run with no additional requirements.
-
-ShadingModels will run with no additional requirements.
+Notes on how to run the programs with requirements:
 
 Connect4Window uses an instance of Connect4AIAgent and the pygame library to run, both are require to play a game against the Agent. Running 
 Connect4Window on the command line will start a game.
