@@ -1,7 +1,11 @@
 # Projects
 This is a collection of the various projects and similar such things I have made throughout school and on my own time.
 The wireframe and shading programs are individual iterations of a project to recreate 3d graphics from scratch using math.
-The Connect 4 programs were created because I wanted to play with minimaxxing and 
+The Connect 4 programs were created because I wanted to play with minimaxxing and alpha-beta pruning, I then threw a visual component on top.
+TicTacToe was created out of a truly idiotic conversation where I and some coworkers theorized that you could make anything
+given enough if statements. I wanted to see how far you could push that idea while still making something 'useful', so it works
+using an appoximation of that idea.
+The chaos game is just something I wrote while in my first year at college that I particulary enjoyed making.
 
 Notes on how to run the programs with requirements:
 
