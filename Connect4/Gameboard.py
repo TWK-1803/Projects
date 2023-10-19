@@ -1,10 +1,16 @@
 class Gameboard:
-
-    def __init__(self, playerTokens: list, connectionWinLength: int, width: int, height: int, board: list):
+    def __init__(
+        self,
+        playerTokens: list,
+        connectionWinLength: int,
+        width: int,
+        height: int,
+        board: list,
+    ):
         self.getValidBoard(connectionWinLength, width, height, board)
         self.playerTokens = self.getValidPlayerTokens(playerTokens)
         self.turnNumber = self.numTokens()
-    
+
     def start(self):
         self.resetBoard()
         self.gameLoop()
@@ -15,7 +21,7 @@ class Gameboard:
             print()
             print(self.toString())
             move = self.getPlayerMove()
-            self.dropInColumn(move-1)
+            self.dropInColumn(move - 1)
             player = str((self.turnNumber % len(self.playerTokens)) + 1)
         print(self.toString())
         if self.isWinner():
@@ -23,19 +29,25 @@ class Gameboard:
         elif self.isDraw():
             print("DRAW! Nobody wins this game!")
         self.playAgain()
-    
+
     def getPlayerMove(self):
         listOfValidMoves = self.getValidMoves()
         player = str(self.turnNumber % len(self.playerTokens) + 1)
         while True:
-            move = input(f"Player {player} ({self.playerTokens[int(player)-1]}), please input a valid move ({listOfValidMoves}) ")
+            move = input(
+                f"Player {player} ({self.playerTokens[int(player)-1]}), please input a valid move ({listOfValidMoves}) "
+            )
             if move.isnumeric():
                 move = int(move)
                 if move > self.width:
-                    print("Please input a valid number (See the list of valid moves in the prompt)")
+                    print(
+                        "Please input a valid number (See the list of valid moves in the prompt)"
+                    )
                     continue
             else:
-                print("Please only input numbers (See the list of valid moves in the prompt)")
+                print(
+                    "Please only input numbers (See the list of valid moves in the prompt)"
+                )
                 continue
             if move in listOfValidMoves:
                 return move
@@ -48,7 +60,7 @@ class Gameboard:
             print("Bye then!")
         else:
             print("Never mind, you can't be trusted with input. Bye!")
-    
+
     def numTokens(self):
         count = 0
         for i in range(self.height):
@@ -66,41 +78,55 @@ class Gameboard:
 
     def getValidPlayerTokens(self, playerTokens):
         if "-" in playerTokens:
-            print("\nCannot have '-' as a token, defaulting to a 1 player game with token 'X'\n")
+            print(
+                "\nCannot have '-' as a token, defaulting to a 1 player game with token 'X'\n"
+            )
             return ["X"]
         elif playerTokens == []:
-            print("\nMust input a list of tokens, defaulting to a 1 player game with token 'X'\n")
+            print(
+                "\nMust input a list of tokens, defaulting to a 1 player game with token 'X'\n"
+            )
             return ["X"]
         else:
             for elem in playerTokens:
                 if len(elem) != 1:
-                    print("\nTokens must be single characters, defaulting to a 1 player game with token 'X'\n")
+                    print(
+                        "\nTokens must be single characters, defaulting to a 1 player game with token 'X'\n"
+                    )
                     return ["X"]
         return playerTokens
-    
+
     def getValidBoard(self, connectionWinLength, width, height, board):
-        if board != [] and self.isValidBoard(board) and self.isPossibleBoard(connectionWinLength, board) and width == len(board[0]) and height == len(board):
+        if (
+            board != []
+            and self.isValidBoard(board)
+            and self.isPossibleBoard(connectionWinLength, board)
+            and width == len(board[0])
+            and height == len(board)
+        ):
             self.board = board
             self.width = len(board[0])
             self.height = len(board)
             self.connectionWinLength = connectionWinLength
         else:
-            print("\nEither board was not valid, dimensions were incorrect, or the given board cannot be won.\n"+
-                    "Defaulting to a blank one with dimensions 1x1 specified and win length 0")
+            print(
+                "\nEither board was not valid, dimensions were incorrect, or the given board cannot be won.\n"
+                + "Defaulting to a blank one with dimensions 1x1 specified and win length 0"
+            )
             self.width = 1
             self.height = 1
             self.connectionWinLength = 0
             self.board = [["-" for c in range(self.width)] for r in range(self.height)]
-    
+
     def getValidMoves(self):
         possibleMoves = [i for i in range(self.width)]
         invalidMoves = []
         for move in possibleMoves:
             if not self.isValidMove(move):
                 invalidMoves.append(move)
-        validMoves = [x+1 for x in possibleMoves if x not in invalidMoves]
+        validMoves = [x + 1 for x in possibleMoves if x not in invalidMoves]
         return validMoves
-    
+
     def isValidMove(self, column):
         if self.hasToken(0, column) or not isinstance(column, int):
             return False
@@ -109,12 +135,12 @@ class Gameboard:
         return True
 
     def isValidBoard(self, board):
-        for i in range(len(board)-1):
+        for i in range(len(board) - 1):
             for j in range(len(board[0])):
-                if board[i][j] != "-" and board[i+1][j] == "-":
+                if board[i][j] != "-" and board[i + 1][j] == "-":
                     return False
         return True
-    
+
     def isPossibleBoard(self, connectionWinLength, board):
         if len(board) < connectionWinLength and len(board[0]) < connectionWinLength:
             return False
@@ -127,28 +153,33 @@ class Gameboard:
                 output += self.board[i][j] + " "
             output += "\n"
         return output
-    
+
     def dropInColumn(self, column):
-        if self.hasToken(0,column):
+        if self.hasToken(0, column):
             return
         for i in range(self.height):
-            if i == self.height-1:
+            if i == self.height - 1:
                 self.updateBoard(i, column)
                 return
-            elif self.hasToken(i+1, column):
+            elif self.hasToken(i + 1, column):
                 self.updateBoard(i, column)
                 return
 
-    def updateBoard(self,r,c):
+    def updateBoard(self, r, c):
         self.board[r][c] = self.playerTokens[self.turnNumber % len(self.playerTokens)]
         if not self.isGameOver():
-            self.turnNumber += 1 
-    
+            self.turnNumber += 1
+
     def isGameOver(self):
         return self.isDraw() or self.isWinner()
-    
+
     def isWinner(self):
-        return self.isHorizontalWin() or self.isVerticalWin() or self.isUpDiagonalWin() or self.isDownDiagonalWin()
+        return (
+            self.isHorizontalWin()
+            or self.isVerticalWin()
+            or self.isUpDiagonalWin()
+            or self.isDownDiagonalWin()
+        )
 
     def isDraw(self):
         return self.getValidMoves() == []
@@ -159,25 +190,25 @@ class Gameboard:
             for c in range(self.width):
                 if c == 0 and self.hasToken(r, c):
                     inARow = 1
-                elif self.hasToken(r, c) and self.board[r][c-1] != self.board[r][c]:
+                elif self.hasToken(r, c) and self.board[r][c - 1] != self.board[r][c]:
                     inARow = 1
-                elif self.hasToken(r, c) and self.board[r][c-1] == self.board[r][c]:
+                elif self.hasToken(r, c) and self.board[r][c - 1] == self.board[r][c]:
                     inARow += 1
                 else:
                     inARow = 0
                 if inARow == self.connectionWinLength:
                     return True
         return False
-        
+
     def isVerticalWin(self):
         for c in range(self.width):
             inARow = 0
             for r in range(self.height):
                 if r == 0 and self.hasToken(r, c):
                     inARow = 1
-                elif self.hasToken(r, c) and self.board[r-1][c] != self.board[r][c]:
+                elif self.hasToken(r, c) and self.board[r - 1][c] != self.board[r][c]:
                     inARow = 1
-                elif self.hasToken(r, c) and self.board[r-1][c] == self.board[r][c]:
+                elif self.hasToken(r, c) and self.board[r - 1][c] == self.board[r][c]:
                     inARow += 1
                 else:
                     inARow = 0
@@ -195,7 +226,7 @@ class Gameboard:
 
         endcolumn = self.connectionWinLength
         for i in range(1, endcolumn):
-            r = self.height-1
+            r = self.height - 1
             c = i
             if self.isWinInThisUpDiagonal(r, c):
                 return True
@@ -203,18 +234,18 @@ class Gameboard:
 
     def isWinInThisUpDiagonal(self, r, c):
         while not r < 0 and not c >= self.width:
-                if (c == 0 or r == self.height-1) and self.hasToken(r, c):
-                    inARow = 1
-                elif self.hasToken(r, c) and self.board[r+1][c-1] != self.board[r][c]:
-                    inARow = 1
-                elif self.hasToken(r, c) and self.board[r+1][c-1] == self.board[r][c]:
-                    inARow += 1
-                else:
-                    inARow = 0
-                if inARow == self.connectionWinLength:
-                    return True
-                r -= 1
-                c += 1
+            if (c == 0 or r == self.height - 1) and self.hasToken(r, c):
+                inARow = 1
+            elif self.hasToken(r, c) and self.board[r + 1][c - 1] != self.board[r][c]:
+                inARow = 1
+            elif self.hasToken(r, c) and self.board[r + 1][c - 1] == self.board[r][c]:
+                inARow += 1
+            else:
+                inARow = 0
+            if inARow == self.connectionWinLength:
+                return True
+            r -= 1
+            c += 1
         return False
 
     def isDownDiagonalWin(self):
@@ -237,9 +268,9 @@ class Gameboard:
         while not r >= self.height and not c >= self.width:
             if (c == 0 or r == 0) and self.hasToken(r, c):
                 inARow = 1
-            elif self.hasToken(r, c) and self.board[r-1][c-1] != self.board[r][c]:
+            elif self.hasToken(r, c) and self.board[r - 1][c - 1] != self.board[r][c]:
                 inARow = 1
-            elif self.hasToken(r, c) and self.board[r-1][c-1] == self.board[r][c]:
+            elif self.hasToken(r, c) and self.board[r - 1][c - 1] == self.board[r][c]:
                 inARow += 1
             else:
                 inARow = 0

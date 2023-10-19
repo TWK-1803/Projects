@@ -4,8 +4,8 @@ from Connect4AIAgent import Connect4AIAgent
 import pygame
 import time
 
-class Connect4Window:
 
+class Connect4Window:
     def __init__(self):
         self.width = 7
         self.height = 6
@@ -13,7 +13,13 @@ class Connect4Window:
         self.playerTokens = ["X", "O"]
         self.AITurnNumber = 1
         self.board = [["-" for col in range(self.width)] for row in range(self.height)]
-        self.newboard = Gameboard(self.playerTokens, self.connectionWinLength, self.width, self.height, self.board)
+        self.newboard = Gameboard(
+            self.playerTokens,
+            self.connectionWinLength,
+            self.width,
+            self.height,
+            self.board,
+        )
         self.AIAgent = Connect4AIAgent(self.newboard, self.AITurnNumber)
         self.surface = self.setupCanvas()
         self.font = pygame.font.SysFont(None, 36)
@@ -27,7 +33,9 @@ class Connect4Window:
     def gameLoop(self):
         quickIsGameOver = False
         needToDrawGameOverMessage = True
-        self.drawText(f"What move do you want to make? ({self.newboard.getValidMoves()})")
+        self.drawText(
+            f"What move do you want to make? ({self.newboard.getValidMoves()})"
+        )
         while True:
             move = -1
             playAgain = "?"
@@ -49,11 +57,13 @@ class Connect4Window:
                         self.drawText("Thinking...")
                         move = self.AIAgent.getMove()
                     if move != -1:
-                        self.dropInColumn(move-1)
+                        self.dropInColumn(move - 1)
                         if not self.isAITurn():
                             self.drawText(f"AI is playing {move}")
                             time.sleep(1)
-                            self.drawText(f"What move do you want to make? ({self.newboard.getValidMoves()})")
+                            self.drawText(
+                                f"What move do you want to make? ({self.newboard.getValidMoves()})"
+                            )
                 else:
                     quickIsGameOver = True
 
@@ -82,68 +92,70 @@ class Connect4Window:
             quit()
         else:
             quit()
-    
+
     def setupCanvas(self):
         pygame.init()
-        surface = pygame.display.set_mode((800,700))
-        BLUE = (1,80,183)
-        GREY = (180,180,180)
+        surface = pygame.display.set_mode((800, 700))
+        BLUE = (1, 80, 183)
+        GREY = (180, 180, 180)
         surface.fill(BLUE)
         for r in range(1, self.height + 1):
             for c in range(1, self.width + 1):
-                pygame.draw.circle(surface, GREY, (c*100, r*100), 45, 0)
+                pygame.draw.circle(surface, GREY, (c * 100, r * 100), 45, 0)
         pygame.display.update()
         return surface
 
     def getResetCanvas(self):
-        BLUE = (1,80,183)
-        GREY = (180,180,180)
+        BLUE = (1, 80, 183)
+        GREY = (180, 180, 180)
         self.surface.fill(BLUE)
         for r in range(1, self.height + 1):
             for c in range(1, self.width + 1):
-                pygame.draw.circle(self.surface, GREY, (c*100, r*100), 45, 0)
+                pygame.draw.circle(self.surface, GREY, (c * 100, r * 100), 45, 0)
         columnNumbers = "1            2             3            4             5            6             7"
-        img = self.font.render(columnNumbers, True, (0,0,0))
+        img = self.font.render(columnNumbers, True, (0, 0, 0))
         self.surface.blit(img, (95, 650))
         pygame.display.update()
 
     def drawTokens(self):
-        RED = (232,42,13)
-        YELLOW = (240,206,0)
-        GREY = (180,180,180)
+        RED = (232, 42, 13)
+        YELLOW = (240, 206, 0)
+        GREY = (180, 180, 180)
         for r in range(1, self.height + 1):
             for c in range(1, self.width + 1):
-                if self.newboard.board[r-1][c-1] == "-":
+                if self.newboard.board[r - 1][c - 1] == "-":
                     COLOR = GREY
-                elif self.newboard.board[r-1][c-1] == "X":
+                elif self.newboard.board[r - 1][c - 1] == "X":
                     COLOR = RED
-                elif self.newboard.board[r-1][c-1] == "O":
+                elif self.newboard.board[r - 1][c - 1] == "O":
                     COLOR = YELLOW
-                pygame.draw.circle(self.surface, COLOR, (c*100, r*100), 45, 0)
+                pygame.draw.circle(self.surface, COLOR, (c * 100, r * 100), 45, 0)
         pygame.display.update()
-    
+
     def drawText(self, text):
-        img = self.font.render(text, True, (0,0,0))
+        img = self.font.render(text, True, (0, 0, 0))
         self.getResetCanvas()
         self.drawTokens()
-        self.surface.blit(img, (50,10))
+        self.surface.blit(img, (50, 10))
         pygame.display.update()
 
     def dropInColumn(self, column):
-        if self.newboard.hasToken(0,column):
+        if self.newboard.hasToken(0, column):
             return (0, 0)
         for i in range(self.newboard.height):
-            if i == self.newboard.height-1:
+            if i == self.newboard.height - 1:
                 self.updateBoard(i, column)
                 return
-            elif self.newboard.hasToken(i+1, column):
+            elif self.newboard.hasToken(i + 1, column):
                 self.updateBoard(i, column)
                 return
 
-    def updateBoard(self,r,c):
-        self.newboard.board[r][c] = self.playerTokens[self.newboard.turnNumber % len(self.playerTokens)]
+    def updateBoard(self, r, c):
+        self.newboard.board[r][c] = self.playerTokens[
+            self.newboard.turnNumber % len(self.playerTokens)
+        ]
         if not self.newboard.isGameOver():
-            self.newboard.turnNumber += 1 
+            self.newboard.turnNumber += 1
 
     def getAITurnNumber(self):
         AITurnNumber = -1
@@ -160,23 +172,29 @@ class Connect4Window:
                         AITurnNumber = 2
             if AITurnNumber == 1 or AITurnNumber == 2:
                 return AITurnNumber
-    
+
     def getPlayerMove(self):
         listOfValidMoves = self.newboard.getValidMoves()
         player = str(self.newboard.turnNumber % len(self.newboard.playerTokens) + 1)
         while True:
-            move = input(f"Player {player} ({self.newboard.playerTokens[int(player)-1]}), please input a valid move ({listOfValidMoves}) ")
+            move = input(
+                f"Player {player} ({self.newboard.playerTokens[int(player)-1]}), please input a valid move ({listOfValidMoves}) "
+            )
             if move.isnumeric():
                 move = int(move)
                 if move > self.newboard.width:
-                    print("Please input a valid number (See the list of valid moves in the prompt)")
+                    print(
+                        "Please input a valid number (See the list of valid moves in the prompt)"
+                    )
                     continue
             else:
-                print("Please only input numbers (See the list of valid moves in the prompt)")
+                print(
+                    "Please only input numbers (See the list of valid moves in the prompt)"
+                )
                 continue
             if move in listOfValidMoves:
                 return move
-    
+
     def getKeyInput(self, key):
         move = -1
         if key == pygame.K_1 or key == pygame.K_KP1:
@@ -196,9 +214,12 @@ class Connect4Window:
         if move not in self.newboard.getValidMoves():
             move = -1
         return move
-        
+
     def isAITurn(self):
-        return self.AITurnNumber - 1 == self.newboard.turnNumber % len(self.newboard.playerTokens)
+        return self.AITurnNumber - 1 == self.newboard.turnNumber % len(
+            self.newboard.playerTokens
+        )
+
 
 if __name__ == "__main__":
     newgame = Connect4Window()

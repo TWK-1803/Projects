@@ -1,5 +1,4 @@
-class GameOfLife():
-
+class GameOfLife:
     def __init__(self, state, wrapping):
         self.width = len(state[0])
         self.height = len(state)
@@ -17,19 +16,26 @@ class GameOfLife():
                 elif not self.state[r][c] and neighbors == 3:
                     nextState[r][c] = True
         return nextState
-    
+
     def getNeighbors(self, r, c):
         count = 0
-        for i in range(-1,2):
-            for j in range(-1,2):
+        for i in range(-1, 2):
+            for j in range(-1, 2):
                 if self.wrapping:
-                    if self.state[(r+i)%self.height][(c+j)%self.width] and not (i==0 and j==0):
-                        count+=1
+                    if self.state[(r + i) % self.height][(c + j) % self.width] and not (
+                        i == 0 and j == 0
+                    ):
+                        count += 1
                 else:
-                    if 0<r+i<self.height and 0<c+j<self.width and self.state[r+i][c+j] and not (i==0 and j==0):
-                        count+=1
+                    if (
+                        0 < r + i < self.height
+                        and 0 < c + j < self.width
+                        and self.state[r + i][c + j]
+                        and not (i == 0 and j == 0)
+                    ):
+                        count += 1
         return count
-    
+
     def updateState(self):
         self.state = self.nextState
         self.nextState = self.getNextState()
@@ -38,7 +44,7 @@ class GameOfLife():
         result = ""
         for row in self.state:
             for elem in row:
-                result+="1 " if elem else "0 "
-            result+="\n"
-        result+="\n"
+                result += "1 " if elem else "0 "
+            result += "\n"
+        result += "\n"
         return result
