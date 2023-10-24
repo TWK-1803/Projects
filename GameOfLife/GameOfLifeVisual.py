@@ -70,9 +70,8 @@ def click(event):
         simulationInput[y][x] = not simulationInput[y][x]
 
         if simulationInput[y][x]:
-            canvas.create_rectangle(
-                xstart, ystart, xstart + wspace, ystart + hspace, fill="black"
-            )
+            canvas.create_rectangle(xstart, ystart, xstart + wspace, ystart + hspace, fill="black")
+
         else:
             resetCanvas()
             drawState(simulationInput)
@@ -100,13 +99,7 @@ def drawState(state):
             wspace = canvasWidth / wscale.get()
             hspace = canvasHeight / hscale.get()
             if state[r][c]:
-                canvas.create_rectangle(
-                    wspace * c,
-                    hspace * r,
-                    wspace * c + wspace,
-                    hspace * r + hspace,
-                    fill="black",
-                )
+                canvas.create_rectangle(wspace * c, hspace * r, wspace * c + wspace, hspace * r + hspace, fill="black")
 
 
 def wrappingChange():
@@ -132,12 +125,16 @@ def largegridChange():
     largegrid = not largegrid
     if largegrid:
         scale = highermaxscale
+
     else:
         if wscale.get() > lowermaxscale:
             wscale.set(lowermaxscale)
+
         if hscale.get() > lowermaxscale:
             hscale.set(lowermaxscale)
+
         scale = lowermaxscale
+
     wscale.configure(to=scale)
     hscale.configure(to=scale)
 
@@ -155,6 +152,7 @@ def rescale(event):
 def clearCanvas():
     if running:
         pauseSimulation()
+
     resetInput()
     resetCanvas()
     resetGame()
@@ -165,15 +163,14 @@ def resetCanvas():
     if drawlines:
         drawHorizontalLines()
         drawVerticalLines()
+
     drawWalls()
 
 
 def resetInput():
     global simulationInput
 
-    simulationInput = [
-        [False for i in range(wscale.get())] for j in range(hscale.get())
-    ]
+    simulationInput = [[False for i in range(wscale.get())] for j in range(hscale.get())]
 
 
 def resetGame():
@@ -256,9 +253,7 @@ hscale.pack(side=LEFT)
 tickratescalelabel = Label(simulationVariables, text="Tickrate")
 tickratescalelabel.pack(side=LEFT)
 
-tickratescale = Scale(
-    simulationVariables, from_=mintickrate, to=maxtickrate, command=tickrateChange
-)
+tickratescale = Scale(simulationVariables, from_=mintickrate, to=maxtickrate, command=tickrateChange)
 tickratescale.pack(side=LEFT)
 
 resetbtn = Button(simulationControls, text="Reset", bd="5", command=clearCanvas)
@@ -273,22 +268,14 @@ pausebtn.pack(side=LEFT)
 stepbtn = Button(simulationControls, text="Step", bd="5", command=advanceOneStep)
 stepbtn.pack(side=LEFT)
 
-wrappingchkbox = Checkbutton(
-    simulationSettings, text="Wrap Around", command=wrappingChange
-)
-wrappingchkbox.pack(
-    side=TOP,
-)
+wrappingchkbox = Checkbutton(simulationSettings, text="Wrap Around", command=wrappingChange)
+wrappingchkbox.pack(side=TOP)
 
-drawlineschkbox = Checkbutton(
-    simulationSettings, text="Draw Grid", command=drawlinesChange
-)
+drawlineschkbox = Checkbutton(simulationSettings, text="Draw Grid", command=drawlinesChange)
 drawlineschkbox.pack(side=TOP)
 drawlineschkbox.select()
 
-largegridchkbox = Checkbutton(
-    simulationSettings, text="Large Grid", command=largegridChange
-)
+largegridchkbox = Checkbutton(simulationSettings, text="Large Grid", command=largegridChange)
 largegridchkbox.pack(side=TOP)
 
 resetCanvas()
