@@ -59,48 +59,9 @@ class HermiteSpline:
 
     def setPoint(self, index, point):
         i = int(index // 2)
-        i1 = int(index // 2) - 1
         self.pointCloud[index] = point
-
-        if index % 2 == 0:
-            if index != 0 and index != len(self.pointCloud) - 2:
-                self.curves[i].pointCloud[0] = point
-                self.curves[i1].pointCloud[-1] = point
-
-            elif index == len(self.pointCloud) - 2:
-                self.curves[i1].pointCloud[-1] = point
-
-            else:
-                self.curves[i].pointCloud[0] = point
-
+        if index % 2 != 0:
+            self.velocities[i] = [self.pointCloud[index][0] - self.pointCloud[index-1][0], self.pointCloud[index][1] - self.pointCloud[index-1][1]]
         else:
-            self.velocities[i] = [
-                point[0] - self.pointCloud[index - 1][0],
-                point[1] - self.pointCloud[index - 1][1],
-            ]
-
-            if index != 1 and index != len(self.pointCloud) - 1:
-                currentCurvePoint = self.curves[i].pointCloud[0]
-                previousCurvePoint = self.curves[i1].pointCloud[-1]
-                self.curves[i].pointCloud[1] = [
-                    currentCurvePoint[0] + (self.velocities[i][0] / 3),
-                    currentCurvePoint[1] + (self.velocities[i][1] / 3),
-                ]
-                self.curves[i1].pointCloud[-2] = [
-                    previousCurvePoint[0] - (self.velocities[i][0] / 3),
-                    previousCurvePoint[1] - (self.velocities[i][1] / 3),
-                ]
-
-            elif index == len(self.pointCloud) - 1:
-                previousCurvePoint = self.curves[i1].pointCloud[-1]
-                self.curves[i1].pointCloud[-2] = [
-                    previousCurvePoint[0] + (self.velocities[i][0] / 3),
-                    previousCurvePoint[1] + (self.velocities[i][1] / 3),
-                ]
-
-            else:
-                currentCurvePoint = self.curves[i].pointCloud[0]
-                self.curves[i].pointCloud[1] = [
-                    currentCurvePoint[0] + (self.velocities[i][0] / 3),
-                    currentCurvePoint[1] + (self.velocities[i][1] / 3),
-                ]
+            self.pointCloud[index+1] = [self.pointCloud[index][0] + self.velocities[i][0], self.pointCloud[index][1] + self.velocities[i][1]]
+        self.curves = self.generateCurves(self.getMainPointCloud())

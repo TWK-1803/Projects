@@ -3,8 +3,8 @@ from BezierCurve import BezierCurve
 
 class BezierSpline:
     def __init__(self, pointCloud):
-        self.curves = self.generateCurves(pointCloud)
-        self.pointCloud = self.generatePointCloud()
+        self.pointCloud = self.generatePointCloud(pointCloud)
+        self.curves = self.generateCurves(self.pointCloud)
         self.endPoint = self.getEndPoint(0)
 
     def getEndPoint(self, t):
@@ -14,6 +14,14 @@ class BezierSpline:
 
     def generateCurves(self, pointCloud):
         curves = []
+        for i in range(0, len(pointCloud)-1, 3):
+            tmpPointCloud = [pointCloud[i], pointCloud[i+1], pointCloud[i+2], pointCloud[i + 3]]
+            curves.append(BezierCurve(tmpPointCloud))
+
+        return curves
+    
+    def generatePointCloud(self, pointCloud):
+        points = []
         for i in range(len(pointCloud) - 1):
             tmp1 = [
                 1 / 4 * (3 * pointCloud[i][0] + pointCloud[i + 1][0]),
@@ -23,36 +31,29 @@ class BezierSpline:
                 1 / 4 * (pointCloud[i][0] + 3 * pointCloud[i + 1][0]),
                 1 / 4 * (pointCloud[i][1] + 3 * pointCloud[i + 1][1]),
             ]
-            tmpPointCloud = [pointCloud[i], tmp1, tmp2, pointCloud[i + 1]]
-            curves.append(BezierCurve(tmpPointCloud))
+            points.append(pointCloud[i])
+            points.append(tmp1)
+            points.append(tmp2)
+        points.append(pointCloud[-1])
 
-        return curves
-
-    def setPoint(self, index, point):
-        i = int(index // 3)
-        i1 = int(index // 3) - 1
-        self.pointCloud[index] = point
-        if index % 3 != 0:
-            self.curves[i].pointCloud[index % 3] = point
-
-        elif index != 0 and index != len(self.pointCloud) - 1:
-            self.curves[i].pointCloud[0] = point
-            self.curves[i1].pointCloud[-1] = point
-
-        elif index == len(self.pointCloud) - 1:
-            self.curves[i1].pointCloud[-1] = point
-
-        else:
-            self.curves[i].pointCloud[0] = point
-
-    def generatePointCloud(self):
-        pointCloud = []
-        for curve in self.curves:
-            for point in curve.pointCloud:
-                if point not in pointCloud:
-                    pointCloud.append(point)
-
-        return pointCloud
+        return points
 
     def getMainPointCloud(self):
         return [self.pointCloud[i] for i in range(0, len(self.pointCloud), 3)]
+
+    def setPoint(self, index, point):
+        if index % 3 != 0:
+            self.pointCloud[index] = point
+
+        else:
+            if index != 0:
+                velocityBehind = [self.pointCloud[index-1][0] - self.pointCloud[index][0], self.pointCloud[index-1][1] - self.pointCloud[index][1]]
+                self.pointCloud[index-1] = [point[0] + velocityBehind[0], point[1] + velocityBehind[1]]
+
+            if index != len(self.pointCloud) - 1:
+                velocityAhead = [self.pointCloud[index+1][0] - self.pointCloud[index][0], self.pointCloud[index+1][1] - self.pointCloud[index][1]]
+                self.pointCloud[index+1] = [point[0] + velocityAhead[0], point[1] + velocityAhead[1]]
+
+            self.pointCloud[index] = point
+
+        self.curves = self.generateCurves(self.pointCloud)

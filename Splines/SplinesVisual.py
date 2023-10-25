@@ -6,14 +6,21 @@ from LinearSpline import LinearSpline
 from CardinalSpline import CardinalSpline
 from CatmullRomSpline import CatmullRomSpline
 
-width = 800
-height = 800
-basePointCloud = [[-200, 0], [0, 100], [200, 0], [0, -100], [0, 0]]
+windowWidth = 800
+windowHeight = 700
+controlWidth = windowWidth
+controlHeight = 100
+canvasWidth = windowWidth
+canvasHeight = windowHeight - controlHeight
+basePointCloud = [[-200, 0], [-100, 100], [100, 100], [200, 0]]
 splines = []
 selectedPoint = -1
 drawLines = True
-numberOfTSteps = 100
+addingPoint = False
+removingPoint = False
+numberOfTSteps = 50
 mode = 0
+splineWidth = 1
 
 
 def generateSplines():
@@ -27,6 +34,8 @@ def generateSplines():
         CardinalSpline(basePointCloud),
         CatmullRomSpline(basePointCloud),
     ]
+
+    clearCanvas()
 
 
 def drawPointCloud():
@@ -46,23 +55,22 @@ def drawPointCloud():
 
 
 def drawSpline():
-    match (mode):
-        case 0:
-            drawBezierCurve()
-        case 1:
-            drawBezierSpline()
-        case 2:
-            drawHermiteSpline()
-        case 3:
-            drawLinearSpline()
-        case 4:
-            drawCardinalSpline()
-        case 5:
-            drawCatmullRomSpline()
+    t = 0
+    previousPoint = []
+    maxt = 1 if mode == 0 else len(basePointCloud) - 1
+    while t < maxt:
+        splines[mode].endPoint = splines[mode].getEndPoint(t)
+        scoords = getWindowCoords(splines[mode].endPoint)
+        if previousPoint != []:
+            drawPoint(previousPoint, scoords)
 
+        t += 1 / numberOfTSteps
+        previousPoint = scoords
+
+    drawPoint(previousPoint, getWindowCoords(splines[mode].getEndPoint(maxt-0.000001)))
 
 def drawPoint(point1, point2):
-    canvas.create_line(point1[0], point1[1], point2[0], point2[1], fill="black")
+    canvas.create_line(point1[0], point1[1], point2[0], point2[1], width=splineWidth, fill="black")
 
 
 def drawBezierCurvePointCloud():
@@ -82,18 +90,6 @@ def drawBezierCurvePointCloud():
                 wcoords[1] + 5,
                 fill="black",
             )
-
-
-def drawBezierCurve():
-    t = 0
-    previousPoint = []
-    while t < 1:
-        splines[0].endPoint = splines[0].getEndPoint(t)
-        scoords = getWindowCoords(splines[0].endPoint)
-        if previousPoint != []:
-            drawPoint(previousPoint, scoords)
-        t += 1 / numberOfTSteps
-        previousPoint = scoords
 
 
 def drawBezierSplinePointCloud():
@@ -132,18 +128,6 @@ def drawBezierSplinePointCloud():
                 )
 
 
-def drawBezierSpline():
-    t = 0
-    previousPoint = []
-    while t < len(splines[1].curves):
-        splines[1].endPoint = splines[1].getEndPoint(t)
-        scoords = getWindowCoords(splines[1].endPoint)
-        if previousPoint != []:
-            drawPoint(previousPoint, scoords)
-        t += 1 / numberOfTSteps / len(splines[1].curves)
-        previousPoint = scoords
-
-
 def drawHermiteSplinePointCloud():
     if drawLines:
         currentCurve = []
@@ -174,18 +158,6 @@ def drawHermiteSplinePointCloud():
                 )
 
 
-def drawHermiteSpline():
-    t = 0
-    previousPoint = []
-    while t < len(splines[2].curves):
-        splines[2].endPoint = splines[2].getEndPoint(t)
-        scoords = getWindowCoords(splines[2].endPoint)
-        if previousPoint != []:
-            drawPoint(previousPoint, scoords)
-        t += 1 / numberOfTSteps / len(splines[2].curves)
-        previousPoint = scoords
-
-
 def drawLinearSplinePointCloud():
     if drawLines:
         for point in splines[3].pointCloud:
@@ -197,18 +169,6 @@ def drawLinearSplinePointCloud():
                 wcoords[1] + 5,
                 fill="black",
             )
-
-
-def drawLinearSpline():
-    t = 0
-    previousPoint = []
-    while t < len(splines[3].pointCloud) - 1:
-        splines[3].endPoint = splines[3].getEndPoint(t)
-        scoords = getWindowCoords(splines[3].endPoint)
-        if previousPoint != []:
-            drawPoint(previousPoint, scoords)
-        t += 1 / numberOfTSteps / (len(splines[3].pointCloud) - 1)
-        previousPoint = scoords
 
 
 def drawCardinalSplinePointCloud():
@@ -230,18 +190,6 @@ def drawCardinalSplinePointCloud():
             )
 
 
-def drawCardinalSpline():
-    t = 0
-    previousPoint = []
-    while t < len(splines[4].curves):
-        splines[4].endPoint = splines[4].getEndPoint(t)
-        scoords = getWindowCoords(splines[4].endPoint)
-        if previousPoint != []:
-            drawPoint(previousPoint, scoords)
-        t += 1 / numberOfTSteps / len(splines[4].curves)
-        previousPoint = scoords
-
-
 def drawCatmullRomSplinePointCloud():
     if drawLines:
         wcoords = []
@@ -261,58 +209,76 @@ def drawCatmullRomSplinePointCloud():
             )
 
 
-def drawCatmullRomSpline():
-    t = 0
-    previousPoint = []
-    while t < len(splines[5].curves):
-        splines[5].endPoint = splines[5].getEndPoint(t)
-        scoords = getWindowCoords(splines[5].endPoint)
-        if previousPoint != []:
-            drawPoint(previousPoint, scoords)
-        t += 1 / numberOfTSteps / len(splines[5].curves)
-        previousPoint = scoords
-
-
 def getWindowCoords(coords):
-    return [coords[0] + width / 2, -coords[1] + height / 2]
+    return [coords[0] + canvasWidth / 2, -coords[1] + canvasHeight / 2]
 
 
 def getCartesianCoords(coords):
-    return [coords[0] - width / 2, -(coords[1] - height / 2)]
+    return [coords[0] - canvasWidth / 2, -(coords[1] - canvasHeight / 2)]
 
 
 def click(event):
     global selectedPoint
+    global addingPoint
+    global removingPoint
 
-    if drawLines:
+    if drawLines and not addingPoint and not removingPoint:
         if selectedPoint == -1:
             for i in range(len(splines[mode].pointCloud)):
                 pcoords = getWindowCoords(splines[mode].pointCloud[i])
-                if (
-                    pcoords[0] - 5 < event.x < pcoords[0] + 5
-                    and pcoords[1] - 5 < event.y < pcoords[1] + 5
-                ):
+                if (pcoords[0] - 5 < event.x < pcoords[0] + 5 and pcoords[1] - 5 < event.y < pcoords[1] + 5):
                     selectedPoint = i
                     break
 
         if selectedPoint != -1:
-            splines[mode].setPoint(
-                selectedPoint, getCartesianCoords([event.x, event.y])
-            )
+            if event.x >= canvasWidth:
+                x = canvasWidth
+
+            elif event.x <= 0:
+                x = 0
+
+            else:
+                x = event.x
+
+            if event.y >= canvasHeight:
+                y = canvasHeight
+
+            elif event.y <= 0:
+                y = 0
+
+            else:
+                y = event.y
+
+            splines[mode].setPoint(selectedPoint, getCartesianCoords([x, y]))
             clearCanvas()
 
 
 def release(event):
     global selectedPoint
+    global addingPoint
+    global removingPoint
+    global basePointCloud
+    
+    if addingPoint:
+        if (0 <= event.x <= canvasWidth) and (0 <= event.y <= canvasHeight):
+            basePointCloud.append(getCartesianCoords([event.x, event.y]))
+            addingPoint = False
+            enableFrame(controlPanel)
+            generateSplines()
+    
+    elif removingPoint:
+        tmp = splines[mode].getMainPointCloud()
+        for i in range(len(tmp)):
+            pcoords = getWindowCoords(tmp[i])
+            if (pcoords[0] - 5 < event.x < pcoords[0] + 5 and pcoords[1] - 5 < event.y < pcoords[1] + 5):
+                index = i
+                break
+        basePointCloud.pop(index)
+        removingPoint = False
+        enableFrame(controlPanel)
+        generateSplines()
 
     selectedPoint = -1
-
-
-def spacePressed(event):
-    global drawLines
-
-    drawLines = not drawLines
-    clearCanvas()
 
 
 def clearCanvas():
@@ -321,49 +287,142 @@ def clearCanvas():
     drawSpline()
 
 
-def setMode(pressed):
+def addPoint():
+    global addingPoint
+
+    disableFrame(controlPanel)
+    addingPoint = True
+
+
+def removePoint():
+    global removingPoint
+
+    if len(splines[mode].getMainPointCloud()) > 2:
+        disableFrame(controlPanel)
+        removingPoint = True
+
+
+def optionChanged(selection):
     global mode
     global basePointCloud
 
     basePointCloud = splines[mode].getMainPointCloud()
-    matched = False
-    match (pressed.char):
-        case "1":
-            mode = 0
-            matched = True
-        case "2":
-            mode = 1
-            matched = True
-        case "3":
-            mode = 2
-            matched = True
-        case "4":
-            mode = 3
-            matched = True
-        case "5":
-            mode = 4
-            matched = True
-        case "6":
-            mode = 5
-            matched = True
-        # case '7':
-        #    mode = 6
-        #   matched = True
-    if matched:
-        generateSplines()
+    match (selection):
+        case "Bezier Curve": mode = 0
+        case "Bezier Spline": mode = 1
+        case "Hermite Spline": mode = 2
+        case "Linear Spline": mode = 3
+        case "Cardinal Spline": mode = 4
+        case "Catmull-Rom Spline": mode = 5
+    
+    generateSplines()
+
+
+def drawLinesChange():
+    global drawLines
+
+    drawLines = not drawLines
     clearCanvas()
 
 
+def splineWidthChange(event):
+    global splineWidth
+
+    splineWidth = splineWidthScale.get()
+    clearCanvas()
+
+
+def numberOfTStepsChange(event):
+    global numberOfTSteps
+
+    numberOfTSteps = numberOfTStepsScale.get()
+    clearCanvas()
+
+
+def disableFrame(parent):
+    for child in parent.winfo_children():
+        wtype = child.winfo_class()
+        if wtype not in ("Frame", "Labelframe", "TFrame", "TLabelframe"):
+            child.configure(state="disable")
+        else:
+            disableFrame(child)
+
+
+def enableFrame(parent):
+    for child in parent.winfo_children():
+        wtype = child.winfo_class()
+        if wtype not in ("Frame", "Labelframe", "TFrame", "TLabelframe"):
+            child.configure(state="normal")
+        else:
+            enableFrame(child)
+
+
 root = Tk()
-root.bind("<space>", spacePressed)
-root.bind("<Key>", lambda i: setMode(i))
-outerframe = Frame(root)
+outerframe = Frame(root, width=windowWidth, height=windowHeight)
 outerframe.pack()
 
-canvas = Canvas(outerframe, width=width, height=height)
+canvas = Canvas(outerframe, width=canvasWidth, height=canvasHeight)
 canvas.bind("<B1-Motion>", click)
 canvas.bind("<ButtonRelease-1>", release)
-canvas.pack()
+canvas.pack(side=TOP)
+
+controlPanel = Frame(outerframe, width=controlWidth, height=controlHeight)
+controlPanel.pack(side=BOTTOM)
+
+pointControlFrame = Frame(controlPanel, borderwidth=2, relief=RIDGE)
+pointControlFrame.pack(side=LEFT)
+
+pointControlFrameLabel = Label(pointControlFrame, text="Point Controls", font='Ariel 9 bold underline')
+pointControlFrameLabel.pack()
+
+addPointButton = Button(pointControlFrame, text="Add Point", command=addPoint)
+addPointButton.pack(side=TOP)
+
+removePointButton = Button(pointControlFrame, text="Remove Point", command=removePoint)
+removePointButton.pack(side=TOP)
+
+visualControlFrame = Frame(controlPanel, borderwidth=2, relief=RIDGE)
+visualControlFrame.pack(side=LEFT)
+
+visualControlFrameLabel = Label(visualControlFrame, text="Visual Controls", font='Ariel 9 bold underline')
+visualControlFrameLabel.pack()
+
+splineSelection = StringVar(outerframe) 
+splineSelection.set("Bezier Curve")
+splineSelectionSelector = OptionMenu(visualControlFrame,
+                                     splineSelection,
+                                     *['Bezier Curve',
+                                       'Bezier Spline',
+                                       'Hermite Spline',
+                                       'Linear Spline',
+                                       'Cardinal Spline',
+                                       'Catmull-Rom Spline'],
+                                     command=optionChanged
+                                    )
+splineSelectionSelector.pack(side=TOP)
+
+drawlineschkbox = Checkbutton(visualControlFrame, text="Draw Points", command=drawLinesChange)
+drawlineschkbox.pack(side=TOP)
+drawlineschkbox.select()
+
+splineControlFrame = Frame(controlPanel, borderwidth=2, relief=RIDGE, height=controlHeight)
+splineControlFrame.pack(side=LEFT)
+
+splineControlFrameLabel = Label(splineControlFrame, text="Spline Controls", font='Ariel 9 bold underline')
+splineControlFrameLabel.pack()
+
+splineWidthScale = Scale(splineControlFrame, orient=VERTICAL, from_= 1, to=5, command=splineWidthChange)
+splineWidthScale.pack(side=LEFT)
+
+splineWidthScaleLabel = Label(splineControlFrame, text="Spline Width")
+splineWidthScaleLabel.pack(side=LEFT)
+
+numberOfTStepsScale = Scale(splineControlFrame, orient=VERTICAL, from_= 3, to=50, command=numberOfTStepsChange)
+numberOfTStepsScale.set(numberOfTSteps)
+numberOfTStepsScale.pack(side=LEFT)
+
+numberOfTStepsScaleLabel = Label(splineControlFrame, text="# of Iterations")
+numberOfTStepsScaleLabel.pack(side=LEFT)
 
 generateSplines()
 clearCanvas()
