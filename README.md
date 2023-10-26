@@ -6,7 +6,7 @@ This is a collection of the various projects and other small things I have made 
 
 I was speaking with a coworker one day and we came upon the topic of esoteric languages and the many ways in which they can be uniquely terrible and funny. This led me to me describing BrainFuck (BF), explaining its lovely personal brand of awfulness, and both of us being interested in seeing it in action. At the time, I was looking into compilers and interpreters and figured this would be a nice, relaxing place to wade into that topic programmatically. 
 
-BFInterpreter is exactly what it says, just feed a text file in with a .bf file extension and it will crunch right through it. Just keep in mind that this isn't meant to help you actually write in BF and will happily allow you to run a program that doesn't terminate or output anything. BFToPF is just a program that converts .bf files to a visual representation using binary RBG values. Read about it when looking at the esoteric languages Wiki and thought it would be funny to implement
+BFInterpreter is exactly what it says, just feed a text file in with a .bf file extension and it will crunch right through it. Just keep in mind that this isn't meant to help you actually write in BF and will happily allow you to run a program that doesn't terminate or output anything. BFToPF is just a program that converts .bf files to a visual representation using binary RBG values. Read about it when looking at the esoteric languages Wiki and thought it would be funny to implement. Some specifics on my interpeter: memory is a tape of 30000 looping cells, values cannot go below 0 and do not overflow to the maximum, and calling input when there is none will store a 0
 
 Both files are invoked with "python '*python file*' '*.bf file*'"
 
