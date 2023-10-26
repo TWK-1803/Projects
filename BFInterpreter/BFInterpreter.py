@@ -87,7 +87,7 @@ else:
                 case ".": print(chr(memory[memoryindex]), end="")
                 case ",":
                     if inputindex == len(input):
-                        break
+                        memory[memoryindex] = 0
                     else:
                         memory[memoryindex] = ord(input[inputindex])
                         inputindex += 1
