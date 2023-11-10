@@ -268,12 +268,14 @@ def release(event):
     
     elif removingPoint:
         tmp = splines[mode].getMainPointCloud()
+        index = -1
         for i in range(len(tmp)):
             pcoords = getWindowCoords(tmp[i])
             if (pcoords[0] - 5 < event.x < pcoords[0] + 5 and pcoords[1] - 5 < event.y < pcoords[1] + 5):
                 index = i
                 break
-        basePointCloud.pop(index)
+        if index != -1:
+            basePointCloud.pop(index)
         removingPoint = False
         enableFrame(controlPanel)
         generateSplines()
