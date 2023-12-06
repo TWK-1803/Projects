@@ -17,6 +17,7 @@ BFInterpreter is exactly what it says, just feed a text file in with a .bf file 
 Both files are invoked with "python '*python file*' '*.bf file*'"
 
 ## Connect 4
+
 The Connect 4 programs were created because I wanted to play with minimaxxing and alpha-beta pruning, and was then prompted to see what I could do to throw a visual component on top. I might come back to this with an attempt to make an agent using ML sometime in the future seeing as I've started to get a better understanding of them.
 
 Put Connect4AIAgent, Connect4Window, and Gameboard in the same directory and run Connect4Window to see the project as it was originally presented. All it does it put together a specific kind of Gameboard instance and setup the minimaxxing algorithm and display it. You will need pygame installed for this. If you want to use the Gameboard class for another game, you will have to create an instance of it for yourself in your code as it will not run on its own.
@@ -28,9 +29,18 @@ When I first started programming I was told to try and make Conway's Game of Lif
 Put both files in the same folder and run GameOfLifeVisual to run this.
 
 ## Graphics
+
 These programs come from a class I took on building 3D graphics from scratch in college. They are entirely seperate programs and can be run individually to see the various stages of creation as the project progressed. While I am not entirely happy with how they turned out and could certainly make them so much cleaner and faster knowing what I do now, I thought it was worth archiving as they were part of the most involved and interesting project I undertook at school.
 
 In order of development: Wireframe, InPlaceManipulation, PolygonShading, ShadingModels
+
+## ImgToAscii
+
+As much as I like diving down random rabbit holes as my interests change, sometimes its good to have one of those holes thing be over and done with in a matter of an hour or two rather than the days I spend on other projects. This little thing was inspired, oddly enough, by the works of Petros Vrellis. I played with his techniques and the math behind them for a little while before I decided to see what other stuff mught be done to produce an image out of something other than pixels or colors. Eventually, I came across ascii art and put together this program to make some. Normally, I wouldn't put the scripts or other small experiments I write in this repo but the results were too cool looking not to.
+
+The other program is just a slightly code golfed version of the original. A coworker of mine has an interest in code golfing so I thought I'd give it a try myself. Honestly, I kind of enjoy it. Gives me a reason to scratch that optimization itch in my personal projects (As if I don't get enough of that in my actual work). I usually don't bother because these are more about me exploring topics that I take an interest in or just archiving, so unless optimization is the express purpose of the program, having it work as expected and not take 3.x billion years is usually enough for me.
+
+For ImgToAscii just provide an image with "python ImgToAscii.py *image file*". for the code golfed version, the file need to be supplied in the program itself.
 
 ## Splines
 
