@@ -50,12 +50,20 @@ BezierSplines are just multiple curves stapled together, HermiteSplines use vect
 
 Keep all the files in the same directory and run SplinesVisual for this one, and feel free to mess with the definitions of the splines individually.
 
+## The Chaos Game
+
+I mostly uploaded this just because it was the first project I did at college and it looks cool. No real other reason. Just enjoyed making it and thought to archive it.
+
 ## TicTacToe
 
 This program came out of a truly idiotic conversation where I and some coworkers were dicussing the idea that you could make anything if you just wrote enough if statements. Naturally, I wanted to see how far you could push that idea while still making something 'useful' and thus was this stupid thing created. The idea is that it pulls a list of possible boardstates (which I created manually) and the best possible move to make if it appears (which I also did manually) from a text file. It then stores that data and references it when needed instead of running fancy algoithms or any of that other smart nonsense. Not quite the if statement glory it could have been, but the idea is there. If this boardstate, then this move.
 
 You will need both files in the same folder, or to change the filepath if you run TicTacToe as is. Alternatively, you can implement the class and give it your own dictionary in the format of the original txt file.
 
-## The Chaos Game
+## WFC
 
-I mostly uploaded this just because it was the first project I did at college and it looks cool. No real other reason. Just enjoyed making it and thought to archive it.
+I first encountered the wave function collapse algorithm through the games of Oskar Stålberg. I was interested to see how the level generation was done and came across a youtube video explaining WFC by Martin Donald and wanted to play with it myself. Since I was more interested in just having something to play with and not with spending many hours of my life fine tuning a tileset, I semi took the approach that the original implementation did and decided to allow it to generate its own rules and constrains based on an example image. Most of this code is taken from https://github.com/CodingQuest2023/Algorithms/tree/main/WorldGeneration/WaveFunctionCollapse so I could get things up and running quickly... I don't want to imagine the amount of wrangling I'd have to do to get this working in Tkinter like some of my other projects that have a GUI component. The parts that allow for generation of the rules and such as well as the edits I made to fit those rules in the actually algorithm are my only real contribution here.
+
+Some notes on the program in general: WFC works best when the number of ways to fail is very low, so try to provide examples with a relatively low number of unique tiles while still displaying a lot of possible permutations they can appear in. This program does recognize structures that take up more than 1 tile, but those structures have to be internally consistent and may make failure more likely. The rules are not stored as sockets but as pure references to what tiles can go where which can make failure rates higher if the example doesn't match well with the kind that works best.
+
+Config.py allows for some tweaking of the ouput, and it is where the path to the example image is specified. Make sure all python files are in the same directory and run WFC.py to get it working.
