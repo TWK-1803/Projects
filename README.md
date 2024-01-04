@@ -42,6 +42,14 @@ The other program is just a slightly code golfed version of the original. A cowo
 
 For ImgToAscii just provide an image with "python ImgToAscii.py *image file*". for the code golfed version, the file need to be supplied in the program itself.
 
+## Marching Squares
+
+I was inspired to look into marching cubes by Sebastian Lague's video on the topic, but I decided that my usual GUI approach wasn't going to work very well with 3D without doing a lot of work on a topic I'd already played with (see my graphics projects). Seeing as I was more interested in just getting my hands dirty and not reinventing the graphics wheel for the 1000th time (the classic thing programmers love to do for no reason... I'm not a hypocrite on that at all), I went for marching squares in 2D instead. Same concept, slightly easier math - an absolutely massive plus for me. While I was looking into the subject, I came across ray marching and signed distance functions, so maybe I'll go look at that if I ever come back around to this sort of area of study.
+
+Seeing as I made this after making (stealing) my WFC program I figured a config file might be a nice idea. The Square and Circle files just contain the required code to get collision detection, movement, and implicit functions working for those specific shapes so that the actual driving program could be a lot more abstract. Technically, this approach works for any implicit function provided it has a way to be updated (even if that does nothing) and a way to return a value for the implicit function that describes it when handed a 2D point, but finding implicit functions for other polygons like triangles can be a lot more complicated than I'd like so the 2 shapes in this project are all I added.
+
+Place all the files in the same directory and run MarchingSquaresVisual to get it going. Theres much less configuration on the fly than my other projects since a lot of it needed to be done up front and be immutable, sorry about that. Feel free to add your own shapes and see how they react
+
 ## Splines
 
 I often find myself in the mood to just build things and see if I can make it work, and it was on one such occasion that I stumbled across De Casteljau's algorithm. I've never been one for pure math, so the visual aspect of what this algorithm described so beautifully interested me greatly. This led to a rabbit hole of video games, animation, vector graphics, and all sorts of other applications. Ultimately, I ended up implementing the BezierCurve file you see and liked how it looked so much I decided to see what else this thing could do. 
