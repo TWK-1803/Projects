@@ -16,6 +16,12 @@ BFInterpreter is exactly what it says, just feed a text file in with a .bf file 
 
 Both files are invoked with "python '*python file*' '*.bf file*'"
 
+## Chaos
+
+Chaos theory is such a strange point of interest for me. I first came across it in a mobile game of all things. Then, recently, I happened across this video: https://www.youtube.com/watch?v=bpGx61xNYhc which got me thinking about it again. There are a lot of chaotic systems out there and a number of them can be found on this website I took the formulae from: https://www.dynamicmath.xyz/strange-attractors/. Really, all that's needed to characterize a chaotic system is extreme sensitivity to input and non-period nature, so its fitting that some of these come from attempts to model natural phenomena. I did consider making this 3D by allowing rotation of a baked in shape made of generated points, but that turned out to be a little outside my motivation to work on this and it's been a while since I messed with that sort of thing (yes, I can see the Graphics folder and no, that was not recent as of the time of writing for this project). Feel free to mess with the config file (a convention I am coming to like in these side projects of mine) and look at different attractors from whatever perspective you want. Most have an angle that best suits them, but I couldn't be bothered to hard code more than I did when part of the fun is looking at these things for yourself.
+
+Put both files in the same folder and run Attractors to run this.
+
 ## Connect 4
 
 The Connect 4 programs were created because I wanted to play with minimaxxing and alpha-beta pruning, and was then prompted to see what I could do to throw a visual component on top. I might come back to this with an attempt to make an agent using ML sometime in the future seeing as I've started to get a better understanding of them.
