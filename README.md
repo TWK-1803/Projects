@@ -56,6 +56,10 @@ Seeing as I made this after making (stealing) my WFC program I figured a config 
 
 Place all the files in the same directory and run MarchingSquaresVisual to get it going. Theres much less configuration on the fly than my other projects since a lot of it needed to be done up front and be immutable, sorry about that. Feel free to add your own shapes and see how they react
 
+## Sierpinski
+
+I mostly uploaded this just because it was the first project I did at college and it looks cool. No real other reason. Just enjoyed making it and thought to archive it.
+
 ## Splines
 
 I often find myself in the mood to just build things and see if I can make it work, and it was on one such occasion that I stumbled across De Casteljau's algorithm. I've never been one for pure math, so the visual aspect of what this algorithm described so beautifully interested me greatly. This led to a rabbit hole of video games, animation, vector graphics, and all sorts of other applications. Ultimately, I ended up implementing the BezierCurve file you see and liked how it looked so much I decided to see what else this thing could do. 
@@ -63,10 +67,6 @@ I often find myself in the mood to just build things and see if I can make it wo
 BezierSplines are just multiple curves stapled together, HermiteSplines use vectors to define tangents at the control points, but they secretly can be defined by specific implementations of BezierCurves, CardinalSplines are much the same except the vectors are automatically defined, and CatmullRomSplines are just a specific kind of CardinalSpline. All of this from one simple little algorithm... except LinearSplines. Those were just too funny to leave out.
 
 Keep all the files in the same directory and run SplinesVisual for this one, and feel free to mess with the definitions of the splines individually.
-
-## The Chaos Game
-
-I mostly uploaded this just because it was the first project I did at college and it looks cool. No real other reason. Just enjoyed making it and thought to archive it.
 
 ## TicTacToe
 
