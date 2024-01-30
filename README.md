@@ -34,6 +34,14 @@ When I first started programming I was told to try and make Conway's Game of Lif
 
 Put both files in the same folder and run GameOfLifeVisual to run this.
 
+## GJK
+
+Collision detection can be a really hard thing to implement depending on how you approach the problem. Simple shapes like circles and regular polygons have ways you could do it relatively easily in the grand scheme of things, but things get much more difficult with anything more complex. Weirdly enough, I didn't stumble into this project by trying to solve collision detection or anything fancy like that (I love reinventing the wheel as much as any programmer, but even I have limits... occasionally). I actually came across the original academic paper and the simplicty of the overarching idea intrigued me. The algorithm was taken practically line for line from Reducible's video on the topic here: https://youtu.be/ajv46BSqcK4?si=NLrF1V4a3sZRvn1i, but I added all the stuff in the background to let it work the way it should directly from the pseudocode(The classic move of stealing the framework and tweaking it to make it do what I want). I know the vector class isn't the usual sort of sloppy, quick implementation only for my personal, objectively ideal, intended use case, but I figured I should make it more robust since I might have uses for it elsewhere. Plus it's fun to semi-approach stuff the way I do in my day job sometimes - in resonable, lazy moderation of course since that seems to be the motto for this repo.
+
+Technically this algorithm works for any convex shape, but I went ahead and defined a few simple ones to help test the thing out. Feel free to play with and add on to the Shapes file if you want to make custom blobs of whatever shape you desire.
+
+Keep all files in the same folder and run GJK to get it up and running.
+
 ## Graphics
 
 These programs come from a class I took on building 3D graphics from scratch in college. They are entirely seperate programs and can be run individually to see the various stages of creation as the project progressed. While I am not entirely happy with how they turned out and could certainly make them so much cleaner and faster knowing what I do now, I thought it was worth archiving as they were part of the most involved and interesting project I undertook at school.
