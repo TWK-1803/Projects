@@ -1,5 +1,5 @@
 from Vector3 import Vector3
-from math import cos, sin, sqrt
+from math import cos, sin, sqrt, pi
 import pygame
 
 # Circles are not considered polygons
@@ -85,4 +85,15 @@ class Triangle(Polygon):
         points = [Vector3(x, y-sqrt(3)/3*s),
                   Vector3(x+s/2, y+sqrt(3)/6*s),
                   Vector3(x-s/2, y+sqrt(3)/6*s),]
+        super().__init__(x, y, points)
+
+class Pentagon(Polygon):
+
+    def __init__(self, x, y, s):
+        r = sin(3*pi/10)*s/sin(2*pi/5)
+        points = [Vector3(x+r*cos(pi/10), y-r*sin(pi/10)),
+                  Vector3(x+r*cos(pi/2), y-r*sin(pi/2)),
+                  Vector3(x+r*cos(9*pi/10), y-r*sin(9*pi/10)),
+                  Vector3(x+r*cos(13*pi/10), y-r*sin(13*pi/10)),
+                  Vector3(x+r*cos(17*pi/10), y-r*sin(17*pi/10)),]
         super().__init__(x, y, points)

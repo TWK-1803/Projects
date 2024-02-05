@@ -2,7 +2,6 @@ from Vector3 import Vector3
 from Shapes import *
 import pygame
 from itertools import combinations
-from math import sin, cos
 
 def tripleProd(v1, v2, v3):
     return (v1.cross(v2)).cross(v3)
@@ -23,7 +22,7 @@ def triangleCase(simplex):
 
     C, B, A = simplex
     AB, AC, AO = B-A, C-A, origin - A
-    if AB.normalize() == AO.normalize() or AC.normalize() == AO.normalize():
+    if AB.normalize() == AO.normalize() or AC.normalize() == AO.normalize(): # Line Cases
         return True
     ABperp = tripleProd(AC, AB, AB)
     ACperp = tripleProd(AB, AC, AC)
@@ -81,9 +80,9 @@ direction = Vector3(origin)
 objects = [Square(400, 400, 50),
            Square(450, 451, 50),
            Triangle(350, 350, 75),
-           Circle(150, 150, 50)]
+           Circle(150, 150, 50),
+           Pentagon(300,300,50)]
 
-angle = 0
 run = True
 selected = None
 while run:
@@ -109,18 +108,16 @@ while run:
     if selected is not None:
         selected.translate(Vector3(mousex, mousey) - selected.pos)
 
+    # Number of combinations is equal to n choose 2 where n is the number of objects in the scene
     for pair in combinations(objects, r=2):
         GJK(*pair)
 
-    objects[0].translate(Vector3(cos(angle),sin(angle), 0))
     screen.fill(black)
     for object in objects:
         color = green if object.colliding else white
-        object.rotate(0.01)
         object.display(screen, color)
         pygame.draw.circle(screen, color, (object.pos.x, object.pos.y), 3)
 
-    angle += 0.01
     pygame.display.flip()
 
 pygame.quit()
