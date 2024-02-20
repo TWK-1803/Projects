@@ -1,6 +1,6 @@
 # Note that this program does not exhaustively search every possibility. Some may be marked not possible incorrectly
 maxnum = 6
-goal = 147
+goal = 24
 factorials = {0:1, 1:1, 2:2, 3:6, 4:24, 5:120, 6:720, 7:5040}
 symbols = {0:"+", 1:"-", 2:"*", 3:"/", 4:"+", 5:"-", 6:"*", 7:"/"}
 
@@ -97,7 +97,7 @@ def getanswer(lst):
         t = answer(permutations[i])
         if t != "":
             return t
-    return "Not Possible"
+    return "Impossible"
 
 
 with open("test.txt", "w") as file:
@@ -106,5 +106,4 @@ with open("test.txt", "w") as file:
             for k in range(j, maxnum+1):
                 for l in range(k, maxnum+1):
                     file.write("{} {} {} {}: {}\n".format(i, j, k, l, getanswer([i, j, k, l])))
-                    print("{} {} {} {}\n".format(i, j, k, l))
     file.close()

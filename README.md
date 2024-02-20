@@ -8,6 +8,8 @@ I played a game when I was younger where you roll 4 dice and try to apply mathem
 
 Recently, I happened across a program in Haskell that generated these automatically and thought to take a crack at doing that myself. 24_Haskython is the result of my eyeballing the Haskell program (I don't know Haskell... at all) and trying to transpose it into python (failing miserably until things started to line up, apologies for the weirdness). While my truly awful code does tell you what IS possible to solve, it doesnt tell you HOW. 24_Python is something I wrote to automatically make those formulas instead of just spitting out true or false. It definitely isn't as complete or exhaustive as the first attempt, but it solves my specific use case fine.
 
+Validator is a program I wrote as a sanity check for the generated equations. I tried extending the built-in eval function, but in the end it was simpler to just write my own evalutor. Evaluating infix is hard, so I change the expression into postfix which makes things much easier. I may have gotten carried away a tad and also written a prefix converter and evalutator as well. Oops.
+
 ## BF Interpreter
 
 I was speaking with a coworker one day and we came upon the topic of esoteric languages and the many ways in which they can be uniquely terrible and funny. This led me to me describing BrainFuck (BF), explaining its lovely personal brand of awfulness, and both of us being interested in seeing it in action. At the time, I was looking into compilers and interpreters and figured this would be a nice, relaxing place to wade into that topic programmatically. 
