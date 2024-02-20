@@ -8,7 +8,6 @@ class Vector3:
         self.y = y if y is not None else x
         self.w = w if w is not None else 0
 
-
     def normalize(self) -> Vector3:
         m = self.length()
         if m == 0:
@@ -55,21 +54,15 @@ class Vector3:
             raise TypeError("Cannot equate object of type Vector3 to type {}".format(type(v)))
         return self.x == v.x and self.y == v.y and self.w == v.w
     
-    def __add__(self, b: int | float | Vector3) -> Vector3:
-        if  type(b) is not Vector3 and type(b) is not int and type(b) is not float:
+    def __add__(self, b: Vector3) -> Vector3:
+        if  type(b) is not Vector3:
             raise TypeError("Unsupported type for addition")
-        if type(b) is Vector3:
-            return Vector3(self.x + b.x, self.y + b.y, self.w + b.w)
-        else:
-            return Vector3(self.x + b, self.y + b, self.w + b)
-
-    def __sub__(self, b: int | float | Vector3) -> Vector3:
-        if  type(b) is not Vector3 and type(b) is not int and type(b) is not float:
+        return Vector3(self.x + b.x, self.y + b.y, self.w + b.w)
+        
+    def __sub__(self, b: Vector3) -> Vector3:
+        if  type(b) is not Vector3:
             raise TypeError("Unsupported type for subtraction")
-        if type(b) is Vector3:
-            return Vector3(self.x - b.x, self.y - b.y, self.w - b.w)
-        else:
-            return Vector3(self.x - b, self.y - b, self.w - b)
+        return Vector3(self.x - b.x, self.y - b.y, self.w - b.w)
 
     def __neg__(self) -> Vector3:
         return Vector3(-self.x, -self.y, -self.w)

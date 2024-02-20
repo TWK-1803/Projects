@@ -2,6 +2,7 @@ from Vector3 import Vector3
 from Shapes import *
 import pygame
 from itertools import combinations
+from random import randint
 
 def tripleProd(v1, v2, v3):
     return (v1.cross(v2)).cross(v3)
@@ -22,7 +23,7 @@ def triangleCase(simplex):
 
     C, B, A = simplex
     AB, AC, AO = B-A, C-A, origin - A
-    if AB.normalize() == AO.normalize() or AC.normalize() == AO.normalize(): # Line Cases
+    if lineCase([A,B]) or lineCase([A,C]): # Line Cases
         return True
     ABperp = tripleProd(AC, AB, AB)
     ACperp = tripleProd(AB, AC, AC)
@@ -73,16 +74,20 @@ pygame.display.set_caption("GJK Algorithm")
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 fps = 60
+screenOffset = 100
 
 origin  = Vector3(0, 0)
 direction = Vector3(origin)
 
-objects = [Square(400, 400, 50),
-           Square(450, 451, 50),
-           Triangle(350, 350, 75),
-           Circle(150, 150, 50),
-           Pentagon(300,300,50)]
+objects = [Circle(randint(0 + screenOffset, width - screenOffset), randint(0 + screenOffset, height - screenOffset), randint(25, screenOffset)),
+           Triangle(randint(0 + screenOffset, width - screenOffset), randint(0 + screenOffset, height - screenOffset), randint(25, screenOffset)),
+           Square(randint(0 + screenOffset, width - screenOffset), randint(0 + screenOffset, height - screenOffset), randint(25, screenOffset)),
+           Pentagon(randint(0 + screenOffset, width - screenOffset), randint(0 + screenOffset, height - screenOffset), randint(25, screenOffset)),
+           Hexagon(randint(0 + screenOffset, width - screenOffset), randint(0 + screenOffset, height - screenOffset), randint(25, screenOffset)),
+           Heptagon(randint(0 + screenOffset, width - screenOffset), randint(0 + screenOffset, height - screenOffset), randint(25, screenOffset)),
+           Octagon(randint(0 + screenOffset, width - screenOffset), randint(0 + screenOffset, height - screenOffset), randint(25, screenOffset)),]
 
+angle = 0
 run = True
 selected = None
 while run:
@@ -117,7 +122,9 @@ while run:
         color = green if object.colliding else white
         object.display(screen, color)
         pygame.draw.circle(screen, color, (object.pos.x, object.pos.y), 3)
-
+        object.rotate(0.01)
+    
+    angle += 0.01
     pygame.display.flip()
 
 pygame.quit()

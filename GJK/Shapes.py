@@ -17,7 +17,7 @@ class Circle:
     def scale(self, s):
         self.radius = self.radius * s
 
-    # Included for consistency
+    # Included for interfacing consistency
     def rotate(self, theta):
         pass
 
@@ -96,4 +96,42 @@ class Pentagon(Polygon):
                   Vector3(x+r*cos(9*pi/10), y-r*sin(9*pi/10)),
                   Vector3(x+r*cos(13*pi/10), y-r*sin(13*pi/10)),
                   Vector3(x+r*cos(17*pi/10), y-r*sin(17*pi/10)),]
+        super().__init__(x, y, points)
+
+class Hexagon(Polygon):
+
+    def __init__(self, x, y, s):
+        points = [Vector3(x+s, y),
+                  Vector3(x+s*cos(pi/3), y-s*sin(pi/3)),
+                  Vector3(x+s*cos(2*pi/3), y-s*sin(2*pi/3)),
+                  Vector3(x-s, y),
+                  Vector3(x+s*cos(4*pi/3), y-s*sin(4*pi/3)),
+                  Vector3(x+s*cos(5*pi/3), y-s*sin(5*pi/3)),]
+        super().__init__(x, y, points)
+
+class Heptagon(Polygon):
+
+    def __init__(self, x, y, s):
+        r = sin(5*pi/14)*s/sin(2*pi/7)
+        points = [Vector3(x+r*cos(3*pi/14), y-r*sin(3*pi/14)),
+                  Vector3(x, y-r),
+                  Vector3(x+r*cos(11*pi/14), y-r*sin(11*pi/14)),
+                  Vector3(x+r*cos(15*pi/14), y-r*sin(15*pi/14)),
+                  Vector3(x+r*cos(19*pi/14), y-r*sin(19*pi/14)),
+                  Vector3(x+r*cos(23*pi/14), y-r*sin(23*pi/14)),
+                  Vector3(x+r*cos(27*pi/14), y-r*sin(27*pi/14)),]
+        super().__init__(x, y, points)
+
+class Octagon(Polygon):
+
+    def __init__(self, x, y, s):
+        r = sin(3*pi/8)*s/sin(pi/4)
+        points = [Vector3(x+r*cos(pi/8), y-r*sin(pi/8)),
+                  Vector3(x+r*cos(3*pi/8), y-r*sin(3*pi/8)),
+                  Vector3(x+r*cos(5*pi/8), y-r*sin(5*pi/8)),
+                  Vector3(x+r*cos(7*pi/8), y-r*sin(7*pi/8)),
+                  Vector3(x+r*cos(9*pi/8), y-r*sin(9*pi/8)),
+                  Vector3(x+r*cos(11*pi/8), y-r*sin(11*pi/8)),
+                  Vector3(x+r*cos(13*pi/8), y-r*sin(13*pi/8)),
+                  Vector3(x+r*cos(15*pi/8), y-r*sin(15*pi/8)),]
         super().__init__(x, y, points)
