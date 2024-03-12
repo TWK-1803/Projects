@@ -1,6 +1,7 @@
 from Config import *
 from math import sqrt
-
+from random import random, randint
+import pygame
 
 FORCES = []
 DT = 60/1000
@@ -19,6 +20,7 @@ class Mass:
         self.mass = mass
         self.elasticity = elasticity
         self.pinned = pinned
+        self.burning = False
     
     def update(self):
         if not self.pinned:
@@ -59,22 +61,40 @@ class Mass:
         
 class Spring:
 
-    def __init__(self, mass1, mass2, length, compressability = 1, maxstrainmult = 99):
+    def __init__(self, screen, mass1, mass2, length, compressability = 1, maxstrainmult = 99):
         self.mass1 = mass1
         self.mass2 = mass2
+        self.x = (self.mass1.x + self.mass2.x)//2
+        self.y = (self.mass1.y + self.mass2.y)//2
         self.length = length
         self.compressability = compressability
         self.strained = False
         self.maxstrainmult = maxstrainmult
+        self.burning = False
+        self.particlesSpawned = 0
 
     def update(self):
         dx = self.mass2.x - self.mass1.x
         dy = self.mass2.y - self.mass1.y
         dist = sqrt(dx**2 + dy**2)
         diff = self.length - dist
-        percent = (diff/dist)/2
+
+        if diff == 0:
+            percent = 0
+        else:
+            percent = (diff/dist)/2
 
         self.strained = dist > self.length * self.maxstrainmult
+        
+        if self.burning:
+            if not self.mass1.burning:
+                self.mass1.burning = True if random() <= BURNSPREADCHANCE else False
+            if not self.mass2.burning:
+                self.mass2.burning = True if random() <= BURNSPREADCHANCE else False
+
+        else:
+            if self.mass1.burning or self.mass2.burning:
+                self.burning = True
 
         if not self.strained:    
             offsetx = dx*percent*self.compressability
@@ -87,3 +107,6 @@ class Spring:
             if not self.mass2.pinned:
                 self.mass2.x += offsetx
                 self.mass2.y += offsety
+        
+        self.x = (self.mass1.x + self.mass2.x)//2
+        self.y = (self.mass1.y + self.mass2.y)//2
