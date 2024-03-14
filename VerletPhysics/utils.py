@@ -1,9 +1,8 @@
 from Config import *
 from math import sqrt
 from random import random, randint
-import pygame
 
-FORCES = []
+FORCES = [(0,1)]
 DT = 60/1000
 
 def distance(p1, p2): return sqrt((p1.x - p2.x)**2 + (p1.y - p2.y)**2)
@@ -12,18 +11,18 @@ def clamp(s, n, l) : return max(s, min(n, l))
 
 class Mass:
 
-    def __init__(self, x, y, mass = 0.1, elasticity = 1, pinned = False):
+    def __init__(self, x, y, mass = 0.1, elasticity = 1, frozen = False):
         self.x = x
         self.x_0 = x
         self.y = y
         self.y_0 = y
         self.mass = mass
         self.elasticity = elasticity
-        self.pinned = pinned
+        self.frozen = frozen
         self.burning = False
     
     def update(self):
-        if not self.pinned:
+        if not self.frozen:
             fx = 0
             fy = 0
             for force in FORCES:
@@ -61,7 +60,7 @@ class Mass:
         
 class Spring:
 
-    def __init__(self, screen, mass1, mass2, length, compressability = 1, maxstrainmult = 99):
+    def __init__(self, mass1, mass2, length, compressability = 1, maxstrainmult = 99):
         self.mass1 = mass1
         self.mass2 = mass2
         self.x = (self.mass1.x + self.mass2.x)//2
@@ -88,9 +87,15 @@ class Spring:
         
         if self.burning:
             if not self.mass1.burning:
-                self.mass1.burning = True if random() <= BURNSPREADCHANCE else False
+                if not self.mass1.frozen:
+                    self.mass1.burning = True if random() <= BURNSPREADCHANCE else False
+                elif FROZENCANTHAW:
+                    self.mass1.frozen = False if random() <= THAWCHANCE else self.mass1.frozen
             if not self.mass2.burning:
-                self.mass2.burning = True if random() <= BURNSPREADCHANCE else False
+                if not self.mass2.frozen:
+                    self.mass2.burning = True if random() <= BURNSPREADCHANCE else False
+                elif FROZENCANTHAW:
+                    self.mass2.frozen = False if random() <= THAWCHANCE else self.mass2.frozen
 
         else:
             if self.mass1.burning or self.mass2.burning:
@@ -100,11 +105,11 @@ class Spring:
             offsetx = dx*percent*self.compressability
             offsety = dy*percent*self.compressability
 
-            if not self.mass1.pinned:
+            if not self.mass1.frozen:
                 self.mass1.x -= offsetx
                 self.mass1.y -= offsety
                 
-            if not self.mass2.pinned:
+            if not self.mass2.frozen:
                 self.mass2.x += offsetx
                 self.mass2.y += offsety
         

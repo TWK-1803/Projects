@@ -9,22 +9,22 @@ pygame.display.set_caption("Verlet Physics")
 screen = pygame.display.set_mode(SIZE)
 clock = pygame.time.Clock()
 
-POINTS = [[Mass(c*GRIDSCALE, r*GRIDSCALE, mass=0.05, elasticity=0.3, pinned = r==1) for c in range(1, GRIDWIDTH)] for r in range(1, GRIDHEIGHT)]
+POINTS = [[Mass(c*GRIDSCALE, r*GRIDSCALE, mass=0.05, elasticity=0.3, frozen = r==1) for c in range(1, GRIDWIDTH)] for r in range(1, GRIDHEIGHT)]
 
 SPRINGS = []
 for r in range(1, GRIDHEIGHT - 1):
     for c in range(GRIDWIDTH - 1):
-        SPRINGS.append(Spring(screen, POINTS[r][c], POINTS[r-1][c], distance(POINTS[r][c], POINTS[r-1][c]), maxstrainmult=99))
+        SPRINGS.append(Spring(POINTS[r][c], POINTS[r-1][c], distance(POINTS[r][c], POINTS[r-1][c]), maxstrainmult=99))
 
 for c in range(1, GRIDWIDTH - 1):
     for r in range(GRIDHEIGHT - 1):
-        SPRINGS.append(Spring(screen, POINTS[r][c], POINTS[r][c-1], distance(POINTS[r][c], POINTS[r][c-1]), maxstrainmult=99))
+        SPRINGS.append(Spring(POINTS[r][c], POINTS[r][c-1], distance(POINTS[r][c], POINTS[r][c-1]), maxstrainmult=99))
 
 FLAMEPARTICLES = []
 
 selected = None
 run = True
-gravityEnabled = False
+gravityEnabled = True
 while run:
     clock.tick(FPS)
     mousex, mousey = pygame.mouse.get_pos()
@@ -53,12 +53,20 @@ while run:
                             selected = point
                             break
 
+            elif event.button == 2:
+                for row in POINTS:
+                    for point in row:
+                        if -GRABRADIUS <= point.x - mousex <= GRABRADIUS and -GRABRADIUS <= point.y - mousey <= GRABRADIUS:
+                            point.frozen = not point.frozen
+                            break
+        
             elif event.button == 3:
                 for row in POINTS:
                     for point in row:
                         if -GRABRADIUS <= point.x - mousex <= GRABRADIUS and -GRABRADIUS <= point.y - mousey <= GRABRADIUS:
-                            point.burning = True
-                            break
+                            if not point.frozen or FROZENCANTHAW:
+                                point.burning = True
+                                break
                     
 
     screen.fill(BLACK)
@@ -66,7 +74,7 @@ while run:
     for row in POINTS:
         for point in row:
             if DRAWPOINTS:
-                pygame.draw.circle(screen, WHITE, (point.x, point.y), 2)
+                pygame.draw.circle(screen, WHITE if not point.frozen else BLUE, (point.x, point.y), 2)
             point.update()
 
     
