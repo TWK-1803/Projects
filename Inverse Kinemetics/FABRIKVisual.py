@@ -8,7 +8,7 @@ BLACK = (20, 20, 20)
 WHITE = (247, 247, 247)
 GREEN = (20, 247, 20)
 FPS = 60
-NUMITERATIONS = 10
+NUMITERATIONS = 50
 EPSILONTHRESHOLD = 0.01
 
 points = []
@@ -40,14 +40,11 @@ while run:
     if mouseDist.length() >= segment.totalLength:
         newRelativeTarget = mouseDist.normalize() * segment.totalLength
         target = segment.points[0] + newRelativeTarget
-        
+    
     for iter in range(NUMITERATIONS):
-        epsilon = 0
-
         # Backward adjustment
         for i in range(len(segment.points) - 1, -1, -1):
             if i == len(segment.points) - 1:
-                epsilon += (target - segment.points[i]).length()
                 segment.points[i] = target
                 previousPoint = segment.points[i]
             else:
@@ -59,7 +56,6 @@ while run:
         # Forward adjustment
         for i in range(0, len(segment.points)):
             if i == 0:
-                epsilon += (origin - segment.points[i]).length()
                 segment.points[i] = origin
                 previousPoint = segment.points[i]
             else:
@@ -68,8 +64,9 @@ while run:
                 segment.points[i] = previousPoint + newRelativePos
                 previousPoint = segment.points[i]
 
+        epsilon = (target - segment.points[-1]).length()
         # Average error
-        if epsilon / 2 <= EPSILONTHRESHOLD:
+        if epsilon <= EPSILONTHRESHOLD:
             break
 
     previousDrawnPoint = segment.points[0]
