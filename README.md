@@ -72,6 +72,14 @@ Seeing as I made this after making (stealing) my WFC program I figured a config 
 
 Place all the files in the same directory and run MarchingSquaresVisual to get it going. Theres much less configuration on the fly than my other projects since a lot of it needed to be done up front and be immutable, sorry about that. Feel free to add your own shapes and see how they react
 
+## Origin Shift
+
+Recently, some friends and I got on a Minecraft kick. As always happens whenever Minecraft pulls me in again, I rediscovered the fun I have with designing redstone contraptions/ farms. While looking for new designs, I came across a maze generation algorithm that allows for the maze pathways to be shifted on the fly called Origin Shift which is covered here: https://youtu.be/zbXKcDVV4G0?si=0LRFJhmq3zOhsdRp.
+
+The basic idea is that a 'good' maze has a few key properties: every cell in the grid can reach every other cell via some path and no loops are present in the pathways. We accomplish this by establishing the pathways of the maze as a root directed tree. Which is to say that every node points to one other node (except the origin) and all nodes are able to reach the origin following the pointers. As long as those properties are valid, the maze can shift where the origin is at will and adjust the cooresponding walls. Do this enough and you have a random looking maze. To make it more interesting, I added the ability to toggle vision on some of the components of the maze to see what they look like (including the solution to the maze)
+
+Place all the files in the same directory and run MazeVisual to get this running. Note that the configs are in the MazeVisual file at the top of the code.
+
 ## Sierpinski
 
 I mostly uploaded this just because it was the first project I did at college, and it looks cool. No real other reason. Just enjoyed making it and thought to archive it. The code looks very hand-holdy and different to a lot of the other projects here because it was pretty much dictated line by line from a prof of mine.
