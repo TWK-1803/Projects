@@ -32,6 +32,12 @@ The Connect 4 programs were created during an internship I had over the summer b
 
 Put Connect4AIAgent, Connect4Window, and Gameboard in the same directory and run Connect4Window to see the project as it was originally presented. All it does it put together a specific kind of Gameboard instance and setup the minimaxxing algorithm and display it. You will need pygame installed for this. If you want to use the Gameboard class for another game, you will have to create an instance of it for yourself in your code as it will not run on its own.
 
+## Fourier
+
+This project has been floating around in my head for a while ever since I watched 3Blue1Brown's video where he built something that draws arbitrary periodic paths with rotating circles (link for those interested: https://youtu.be/r6sGWTCMz2k?si=sj4fWv18z5q059uH). I had some free time recently and figured I'd take a shot at it and this is the result. It is sort of cheating by using svg files to get the path data, so I might come back at some later date and add the ability to draw anything and have it replicated. Prior to this, I hadn't really ever messed with complex Fourier Series or Fourier Transforms, but it was surprisingly accessible when compared to some of the other stuff I've messed with in this archive. Maybe that's just me getting better at understanding math, or maybe it really isn't as 'complex' as I had originally estimated (please don't judge me for that pun).
+
+I've included an example svg file that works well with the program. Note that the file is made up of one path element and it connects back to itself. Since my interest was with the math, I didn't spend too much time getting something that would work for all svg files. Just keep that in mind if you are messing with this yourself. You will need to have svgpathtools for this to work. Just keep the svg file and the code together and run FourierVisual to get things going.
+
 ## Game of Life
 
 When I first started programming, I was told to try and make Conway's Game of Life as it's simple to understand and, in theory, implement. Unfortunately for me, I was not good enough yet to really understand how to do much of what I do now and thus failed miserably. I recently started going through some old projects of mine from all those years ago and remembered my last attempt at this. What you see is the result of 2 days of thoroughly dunking on my past self for his lack of skill.
