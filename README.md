@@ -54,7 +54,7 @@ Keep all files in the same folder and run GJK to get it up and running.
 
 ## Graphics
 
-These programs come from a class I took on building 3D graphics from scratch in college. They are entirely separate programs and can be run individually to see the various stages of creation as the project progressed. While I am not entirely happy with how they turned out and could certainly make them so much cleaner and faster knowing what I do now, I thought it was worth archiving as is since they were part of one of the most involved and interesting project I undertook at school.
+These programs come from a class I took on building 3D graphics from scratch in college. They are entirely separate programs and can be run individually to see the various stages of creation as the project progressed. While I am not entirely happy with how they turned out and could certainly make them so much cleaner and faster knowing what I do now, I thought it was worth archiving as is since they were part of one of the most involved and interesting projects I undertook at school.
 
 In order of development: Wireframe, InPlaceManipulation, PolygonShading, ShadingModels
 
@@ -68,7 +68,7 @@ For ImgToAscii just provide an image with "python ImgToAscii.py *image file*". f
 
 ## Inverse Kinematics
 
-I was looking into procedural animation and came across a lot of interesting ideas with a lot of interesting applications. The main drawback I saw was that the approaches I saw tended to require a ton of computation to get right, and it only got more complex the more joints that got added into the system. I ended up looking into the Forward And Backward Reching Inverse Kinematics algorithm (FABRIK) and it looked simple enough to put together a prototype in an afternoon. Honestly, I can believe how realistic and complex the results appear for such a simple idea. Granted, I didn't do any very impressive with this implementation, but the fact that I was able to get things up and working in such a short time is a massive credit to the creators of the algorithm. This is probably the shortest and least problematic project in this entire repo. Oh well, guess they can't all be horrible, torturous creatures that fight me in every step of their lifecycle. The coding gods must like me today.
+I was looking into procedural animation and came across a lot of interesting ideas with a lot of interesting applications. The main drawback I saw was that the approaches I saw tended to require a ton of computation to get right, and it only got more complex the more joints that got added into the system. I ended up looking into the Forward And Backward Reching Inverse Kinematics algorithm (FABRIK) and it looked simple enough to put together a prototype in an afternoon. Honestly, I can believe how realistic and complex the results appear for such a simple idea. Granted, I didn't do anything very impressive with this implementation, but the fact that I was able to get things up and working in such a short time is a massive credit to the creators of the algorithm. This is probably the shortest and least problematic project in this entire repo. Oh well, guess they can't all be horrible, torturous creatures that fight me in every step of their lifecycle. The coding gods must like me today.
 
 ## Magic Trick
 
@@ -89,6 +89,14 @@ Recently, some friends and I got on a Minecraft kick. As always happens whenever
 The basic idea is that a 'good' maze has a few key properties: every cell in the grid can reach every other cell via some path and no loops are present in the pathways. We accomplish this by establishing the pathways of the maze as a root directed tree. Which is to say that every node points to one other node (except the origin) and all nodes are able to reach the origin following the pointers. As long as those properties are valid, the maze can shift where the origin is at will and adjust the cooresponding walls. Do this enough and you have a random looking maze. To make it more interesting, I added the ability to toggle vision on some of the components of the maze to see what they look like (including the solution to the maze)
 
 Place all the files in the same directory and run MazeVisual to get this running. Note that the configs are in the MazeVisual file at the top of the code.
+
+## Ray Marching
+
+As I mentioned in my notes on the Marching Squares project, I did end up circling around to this topic eventually. Originally, I was planning on writing something in 3D with a python wrapper for OpenGL, but I ultimately decided to just do something simpler. CodeParade was where most of my understanding of this topic came from, and he used 2D visualizations to explain pieces of it so that's what I went with. Overall, not as complicated to make as I though it was going to be. Some serious credit for this goes to Inigo Quilez for his insane obsession with graphics (specifically his absolutely massive list of 2D primitive SDFs) as well as the many, many awesome videos explaining how this all works. CodeParade and Sebastian Lague were the 2 main people I watched, but there are a lot more than that. 
+
+The actual code footprint is small enough that I could have put everything in 1 file, but I think this is much more digestable if it's loosely split up by concept. Ray is the actual ray march algorithm, Shapes is the list of SDFs I hard coded from the list I mentioned, March is the main driver, and Utils is just some config options and helpers. 
+
+Keep everything in the same folder and run March to get it going.
 
 ## Sierpinski
 
