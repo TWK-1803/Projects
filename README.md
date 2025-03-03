@@ -82,6 +82,12 @@ Seeing as I made this after making (stealing) my WFC program I figured a config 
 
 Place all the files in the same directory and run MarchingSquaresVisual to get it going. Theres much less configuration on the fly than my other projects since a lot of it needed to be done up front and be immutable, sorry about that. Feel free to add your own shapes and see how they react
 
+## Mouse Generator
+
+This is just a little tool I made to generate characters for the Mausritter ttrpg system. There is are tools that exist to do this already, but I wanted something that I could extend for my own use as needed. The structure is a bit strange, but again I wanted it to be something I could adjust as needed without having to mess with the generation process too much.
+
+Generate only makes 1 mouse at a time as I have it now, so if you want more at once you'd have to change that number yourself.
+
 ## Origin Shift
 
 Recently, some friends and I got on a Minecraft kick. As always happens whenever Minecraft pulls me in again, I rediscovered the fun I have with designing redstone contraptions/ farms. While looking for new designs, I came across a maze generation algorithm that allows for the maze pathways to be shifted on the fly called Origin Shift which is covered here: https://youtu.be/zbXKcDVV4G0?si=0LRFJhmq3zOhsdRp.
