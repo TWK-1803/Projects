@@ -20,6 +20,14 @@ BFInterpreter is exactly what it says, just feed a text file in with a .bf file 
 
 Both files are invoked with "python '*python file*' '*.bf file*'"
 
+## Boids
+
+Boids are a classic example of complex group behavior emerging from simple rules followed by independent agents—similar to systems like cellular automata. The model was designed to simulate the behavior of animals, such as birds or fish, when they form flocks or schools. The three base rules are surprisingly simple: avoid crowding other agents, align with the average heading of nearby agents, and steer toward the average position of nearby agents.
+
+What makes the simulation so dynamic is that the agents have no knowledge of global information; the rules only apply within a local area around each agent. From there, you can expand the model by adding features like obstacle avoidance or splitting agents into multiple flocks that are attracted to, repulsed by, or indifferent to one another.
+
+Keep all files in the same folder and run BoidsVisual for this one. Feel free to mess with the config options to see what you can make.
+
 ## Chaos
 
 Chaos theory is such a strange point of interest for me. I first came across it in a mobile game of all things. Then, recently, I happened across this video: https://www.youtube.com/watch?v=bpGx61xNYhc which got me thinking about it again. There are a lot of chaotic systems out there and a number of them can be found on this website I took the formulae from: https://www.dynamicmath.xyz/strange-attractors/. Really, all that's needed to characterize a chaotic system is extreme sensitivity to input and non-period nature, so it's fitting that some of these come from attempts to model natural phenomena. I did consider making this 3D by allowing rotation of a baked in shape made of generated points, but that turned out to be a little outside my motivation to work on this and it's been a while since I messed with that sort of thing (yes, I can see the Graphics folder and no, that was not recent as of the time of writing for this project). Feel free to mess with the config file (a convention I am coming to like in these side projects of mine) and look at different attractors from whatever perspective you want. Most have an angle that best suits them, but I couldn't be bothered to hard code more than I did when part of the fun is looking at these things for yourself.
